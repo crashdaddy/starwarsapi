@@ -1,6 +1,6 @@
 import React from 'react'
 import { Switch, Route } from 'react-router';
-import App from './components/app/App';
+import App from './containers/App';
 
 const Router = () => {
     return (
@@ -21,7 +21,8 @@ const Router = () => {
             <Route path="/specie/:id" component={Specie} /> 
             <Route path="/person/:id" component={Person} /> 
             <Route path="/planet/:id" component={Planet}/>
-            <Route path="/film/:id" component={Film}/> */} */}
+            <Route path="/film/:id" component={Film}/> */} 
+            <Route path="/:category?/:itemID?/" component={App}/>
         </Switch>
     )
 }
