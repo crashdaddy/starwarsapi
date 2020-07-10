@@ -7,7 +7,7 @@ class ShowAll extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            nextPage: '',
+            nextPage: 'https://swapi.dev/api/starships',
             category: '',
             starships: []
         }
