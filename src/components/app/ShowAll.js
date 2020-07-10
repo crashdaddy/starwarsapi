@@ -24,7 +24,7 @@ class ShowAll extends Component {
 
     componentDidMount = () => {
         window.addEventListener('scroll', this.infiniteScroll);
-        this.getData(this.props.url);
+      //  this.getData(this.props.url);
     }
 
     getData = (url) => {
@@ -57,7 +57,7 @@ class ShowAll extends Component {
             const resp = await fetch(apiURL)
             return resp.json()
         } catch (err) {
-            console.log(err)
+            console.log("error message " ,err)
         }
     }
 
