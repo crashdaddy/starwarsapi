@@ -6,39 +6,11 @@ import {Link} from 'react-router-dom';
 class ShowAll extends Component {
     constructor(props) {
         super(props)
-        this.state = {
-            nextPage: 'https://swapi.dev/api/starships',
-            category: '',
-            starships: []
-        }
-    }
-
-    componentWillReceiveProps(newProps) {
-        if(newProps.category !== this.state.category || this.state.nextPage !== this.props.url){
-          this.setState({
-              starships: []
-          },()=>this.getData())
-         }
-       
      }
 
     componentDidMount = () => {
         window.addEventListener('scroll', this.infiniteScroll);
-      //  this.getData(this.props.url);
-    }
-
-    getData = (url) => {
-        if (!url) url = this.state.nextPage;
-        this.fetchAPI(url).then(data => {
-            if(data){
-            this.setState({
-                nextPage: data.next,
-                category: this.props.category,
-                starships: [...this.state.starships,...data.results]
-            })
-        }
-            
-        })
+       // this.getData();
     }
 
     infiniteScroll = () => {
@@ -46,25 +18,14 @@ class ShowAll extends Component {
         if (window.innerHeight + document.documentElement.scrollTop
         === document.documentElement.offsetHeight){
          
-           this.getData();           
+         //  this.getData();           
         }
     }
-
-    fetchAPI = async (url) => {
-
-        let apiURL = url;
-        try {
-            const resp = await fetch(apiURL)
-            return resp.json()
-        } catch (err) {
-            console.log("error message " ,err)
-        }
-    }
-
 
     render() {
-        console.log(this.props.url,this.state.nextPage)
-        let starshipList = this.state.starships;
+        let starshipList = this.props.starships;
+        let currentCat = this.props.newcategory;
+        console.log(currentCat)
         let shadowStyle = {
             WebkitBoxShadow: '5px 5px 5px 0px rgba(255, 255, 255, 0.25)',
             MozBoxShadow: '5px 5px 5px 0px rgba(255, 255, 255, 0.25)',
@@ -80,7 +41,7 @@ class ShowAll extends Component {
                         {starshipList.map((starship, idx) =>{
                             let idStr = starship.url.split('/');
                              let starshipID = idStr[5];
-                          return(  <Link to={{"pathname": `/${this.props.category}/${starshipID}`}} >
+                          return(  <Link to={{"pathname": `/${currentCat}/${starshipID}`}} >
                             <Paper key={idx} elevation={3} style={shadowStyle}>
 
                             <div style={{ width: '350px', height: '100px', textAlign: 'center' }}>

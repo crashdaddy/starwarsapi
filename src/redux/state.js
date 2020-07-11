@@ -1,5 +1,5 @@
 export default {
-    category: null,
+    category: '',
     view: null,
     itemID: null,
     starships: [],

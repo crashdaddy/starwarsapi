@@ -1,57 +1,95 @@
-import React,{Component} from 'react';
-import '../../App.css';
-import Single from './Single'
-import ShowAll from './ShowAll'
+import React, {Component} from 'react';
+import ShowAll from './ShowAll';
+
 
 class App extends Component {
-  constructor(props){
+constructor(props) {
     super(props)
-    this.state = {
-      category: "starships",
-      view: 'all',
-      itemID: '',
-      dataURL: "https://swapi.dev/api/starships"
+
+    this.state={
+        category: this.props.category,
+        id: '',
+        view: 'all',
+        profileOrError: null
+    }
+}
+
+static getDerivedStateFromProps(nextProps, prevState) {
+    let view = ''
+    // Store prevUserId in state so we can compare when props change.
+    // Clear out any previously-loaded user data (so we don't render stale stuff).
+    if (nextProps.match.params.category !== prevState.category || nextProps.match.params.itemID != prevState.id) {
+        if (nextProps.match.params.itemID!=='') view= "single"; else view='all'
+      return {
+        category: nextProps.match.params.category,
+        id: nextProps.match.params.itemID,
+        view: view,
+        profileOrError: "loading",
+      };
+    }
+
+    // No state update necessary
+    return null;
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (this.state.profileOrError === "loading") {
+      // At this point, we're in the "commit" phase, so it's safe to load the new data.
+      this.getData(this.state.category);
     }
   }
 
- componentWillReceiveProps(newProps) {
-   if(newProps.match.params.category !== this.state.category || newProps.match.params.itemID != this.state.itemID){
-      let urlParams=newProps.match.params.category;
-      let viewParams=this.state.view
-      let itemParams = newProps.match.params.itemID;
-      let dataURL = '';
-      let view="all"
-      if(itemParams) {
-     dataURL = `https://swapi.dev/api/${urlParams}/${itemParams}/`;
-        view= "single";
-      } else {dataURL = `https://swapi.dev/api/${urlParams}/`;
-      view="all";
+    componentDidMount = () => {
+       // if (this.props.category==='') this.props.setCategory('starships')
+        this.getData()
+       
     }
-       this.setState({
-        category: urlParams,
-        dataURL: dataURL,
-        view: view
-      })
+
+    getData = (url) => {
+     if (this.state.profileOrError==="loading") {
+        if (!url) url='vehicles'
+        let dataURL = `https://swapi.dev/api/${url}/`;
+        if(this.state.id)
+        dataURL += this.state.id;
+        console.log("dataurl: ",dataURL)
+        let view = "all"
+        fetch(dataURL)
+            .then(res => res.json())
+            .then(data => {
+                if(data.results){
+                this.props.setStarship(data.results);
+                } else {
+                this.props.setStarship(data);
+                view="single"
+                }
+
+                this.setState({
+                    profileOrError: null,
+                    view: view
+                })
+            })
+     }
     }
-  
+
+    render(){
+        let starshipList = null
+        console.log(this.state.view)
+        if (this.props.starships && this.props.starships.length>0){
+         starshipList = this.props.starships
+        }
+        if (starshipList) {
+        return(
+            <div>{this.state.view==="all" ?
+             <div><ShowAll newcategory={this.state.category} starships={starshipList} /></div>
+             :
+            <div style={{fontSize:'100px'}}>{starshipList.name}</div>
+             }
+            </div>
+        )
+        } else {
+            return <div>himom</div>
+        }
+    }
 }
 
- 
-  render() {
-  return (
-    <div className="App">
-      <header className="App-header">
-      View: {this.state.view}<br/>
-      URL: {this.state.dataURL}
-      {this.state.view==="single" ? 
-      <div><Single url={this.state.dataURL} /></div>  
-    :
-    <div><ShowAll category={this.state.category} url={this.state.dataURL}/></div>
-    }
-      </header>
-    </div>
-  );
-  }
-}
-
-export default App;
+export default App

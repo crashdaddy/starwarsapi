@@ -35,9 +35,8 @@ const starships = (state=[],action) => {
         case 'SET_STARSHIP':
         return action.value || null;
         case 'CONCAT_STARSHIP':
-         return { 
-        ...state,
-        starships: [...state.starships || [], action.newItem]
+         return {
+        starships: [...state.starships, action.value]
     }
         default:
             return state
