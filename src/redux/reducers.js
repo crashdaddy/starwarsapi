@@ -30,7 +30,7 @@ const itemID = (state=null, action) => {
     }
 }
 
-const starships = (state=[],action) => {
+const starships = (state=null,action) => {
     switch(action.type) {
         case 'SET_STARSHIP':
         return action.value

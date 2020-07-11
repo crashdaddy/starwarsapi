@@ -8,7 +8,7 @@ constructor(props) {
 
     this.state={
         category: this.props.category,
-        id: '',
+        id: this.props.itemID,
         view: 'all',
         profileOrError: null
     }
@@ -33,10 +33,9 @@ static getDerivedStateFromProps(nextProps, prevState) {
   }
 
   componentDidUpdate(prevProps, prevState) {
-    if (this.state.profileOrError === "loading") {
-      // At this point, we're in the "commit" phase, so it's safe to load the new data.
+    
       this.getData(this.state.category);
-    }
+    
   }
 
     componentDidMount = () => {
@@ -49,7 +48,7 @@ static getDerivedStateFromProps(nextProps, prevState) {
      if (this.state.profileOrError==="loading") {
         if (!url) url='vehicles'
         let dataURL = `https://swapi.dev/api/${url}/`;
-        if(this.state.id) dataURL += this.state.id;
+        if(this.state.id) dataURL += this.state.id+'/';
         
         let view = "all"
         fetch(dataURL)
@@ -72,7 +71,7 @@ static getDerivedStateFromProps(nextProps, prevState) {
 
     render(){
         let starshipList = null
-        if (this.props.starships && this.props.starships.length>0){
+        if (this.props.starships){
          starshipList = this.props.starships
         }
         if (starshipList) {

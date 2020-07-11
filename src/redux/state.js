@@ -2,5 +2,5 @@ export default {
     category: '',
     view: null,
     itemID: null,
-    starships: [],
+    starships: null,
   };
