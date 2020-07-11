@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import ShowAll from './ShowAll';
+import ShowSingle from './ShowSingle';
 
 
 class App extends Component {
@@ -76,10 +77,12 @@ static getDerivedStateFromProps(nextProps, prevState) {
         }
         if (starshipList) {
         return(
-            <div>{this.state.view==="all" ?
+            <div style={{marginTop:'60px'}}>{this.state.view==="all" ?
              <div><ShowAll newcategory={this.state.category} starships={starshipList} /></div>
              :
-            <div style={{fontSize:'100px'}}>{starshipList.name}</div>
+            <div style={{marginTop:'120px'}}>
+                <ShowSingle starships={starshipList} />
+            </div>
              }
             </div>
         )

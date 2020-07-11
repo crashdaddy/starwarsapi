@@ -10,6 +10,10 @@ const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
     zIndex:2,
+    position: 'fixed',
+    top: '0',
+    left: '0',
+    width:'100%',
   },
   menuButton: {
     marginRight: theme.spacing(2),
