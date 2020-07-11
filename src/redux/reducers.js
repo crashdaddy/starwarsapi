@@ -33,7 +33,7 @@ const itemID = (state=null, action) => {
 const starships = (state=[],action) => {
     switch(action.type) {
         case 'SET_STARSHIP':
-        return action.value || null;
+        return action.value
         case 'CONCAT_STARSHIP':
          return {
         starships: [...state.starships, action.value]

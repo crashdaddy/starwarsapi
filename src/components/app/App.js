@@ -49,9 +49,8 @@ static getDerivedStateFromProps(nextProps, prevState) {
      if (this.state.profileOrError==="loading") {
         if (!url) url='vehicles'
         let dataURL = `https://swapi.dev/api/${url}/`;
-        if(this.state.id)
-        dataURL += this.state.id;
-        console.log("dataurl: ",dataURL)
+        if(this.state.id) dataURL += this.state.id;
+        
         let view = "all"
         fetch(dataURL)
             .then(res => res.json())
@@ -73,7 +72,6 @@ static getDerivedStateFromProps(nextProps, prevState) {
 
     render(){
         let starshipList = null
-        console.log(this.state.view)
         if (this.props.starships && this.props.starships.length>0){
          starshipList = this.props.starships
         }
